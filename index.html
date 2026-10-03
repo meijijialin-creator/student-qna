@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="뷰티디자인학과 AI 학생상담 · AI Student Consultation Service">
+  <meta name="theme-color" content="#FBF7F2">
+  <title>뷰티디자인학과 AI 학생상담</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+KR:wght@500;600&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ivory: #FBF7F2;
+      --paper: #FFFDFA;
+      --cream: #F4ECE2;
+      --beige: #E7D9C8;
+      --line: #E2D3C3;
+      --rose: #C9A19B;
+      --rose-soft: #EFDCD6;
+      --rose-deep: #9C6B66;
+      --brown: #6E5346;
+      --brown-dark: #57402F;
+      --ink: #3B2D27;
+      --muted: #85716A;
+      --success-bg: #F6EEE6;
+      --forward-bg: #F3E7E3;
+      --error: #A4524A;
+      --error-bg: #FBEEEC;
+
+      --font-sans: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-serif: "Noto Serif KR", "AppleMyungjo", "Batang", "Noto Serif SC", "Songti SC", Georgia, serif;
+
+      --radius-field: 10px;
+      --radius-card: 22px;
+      --shadow-card: 0 1px 2px rgba(110, 83, 70, 0.05), 0 18px 48px -22px rgba(110, 83, 70, 0.28);
+    }
+
+    :lang(zh-CN) {
+      --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", "Noto Serif KR", Georgia, serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+      background-color: var(--ivory);
+      background-image:
+        radial-gradient(ellipse 60% 45% at 8% 0%, rgba(239, 220, 214, 0.55), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(231, 217, 200, 0.5), transparent 70%);
+      background-attachment: fixed;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    :lang(zh-CN) body, body:lang(zh-CN) { word-break: normal; }
+
+    button, input, select, textarea { font: inherit; color: inherit; }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0);
+      white-space: nowrap; border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px; top: -60px;
+      background: var(--brown);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      z-index: 100;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .skip-link:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      flex: none;
+      width: 34px; height: 34px;
+    }
+
+    .brand-text {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      font-weight: 500;
+      color: var(--brown);
+      white-space: nowrap;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      padding: 4px;
+      background: rgba(255, 253, 250, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      gap: 2px;
+      flex: none;
+    }
+
+    .lang-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      line-height: 1.3;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background-color .2s ease, color .2s ease;
+      white-space: nowrap;
+    }
+    .lang-btn:hover { color: var(--ink); background: var(--cream); }
+    .lang-btn[aria-pressed="true"] {
+      background: var(--brown);
+      color: #FFF9F3;
+    }
+    .lang-btn:focus-visible {
+      outline: 2px solid var(--rose-deep);
+      outline-offset: 2px;
+    }
+
+    /* ---------- Layout ---------- */
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 28px 56px;
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ---------- Intro ---------- */
+    .intro {
+      position: sticky;
+      top: 32px;
+      padding-top: 36px;
+    }
+
+    .intro-ornament {
+      position: absolute;
+      top: -10px;
+      right: -12px;
+      width: 260px;
+      height: 260px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      font-weight: 500;
+      color: var(--rose-deep);
+    }
+
+    .intro h1 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: clamp(32px, 4.2vw, 48px);
+      line-height: 1.28;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      margin: 16px 0 0;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--brown);
+      letter-spacing: 0.01em;
+    }
+
+    .intro-rule {
+      width: 48px;
+      height: 1px;
+      background: var(--rose);
+      border: 0;
+      margin: 32px 0;
+    }
+
+    .intro-text {
+      margin: 0;
+      max-width: 34em;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .flow {
+      list-style: none;
+      margin: 36px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0;
+      counter-reset: flow;
+    }
+
+    .flow li {
+      counter-increment: flow;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 14px;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+    .flow li:last-child { border-bottom: 1px solid var(--line); }
+
+    .flow li::before {
+      content: counter(flow);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--rose);
+      color: var(--rose-deep);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      display: grid;
+      place-items: center;
+      margin-top: 1px;
+    }
+
+    .flow strong {
+      display: block;
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .flow span {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ---------- Card ---------- */
+    .card {
+      background: var(--paper);
+      border: 1px solid rgba(226, 211, 195, 0.8);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 44px 44px 36px;
+    }
+
+    .card-head { margin-bottom: 30px; }
+
+    .card-head h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 1.4;
+    }
+
+    .card-head p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .req-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rose-deep);
+      vertical-align: middle;
+      margin: 0 6px 2px 0;
+    }
+
+    /* ---------- Form ---------- */
+    form { margin: 0; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 18px;
+    }
+
+    .field { margin-bottom: 22px; }
+
+    .field label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .field label .req-dot { margin: 0; }
+
+    .hint {
+      margin: -2px 0 10px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .control {
+      display: block;
+      width: 100%;
+      height: 52px;
+      padding: 0 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-field);
+      font-size: 16px;
+      line-height: 1.5;
+      transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .control::placeholder { color: #B6A69C; opacity: 1; }
+
+    .control:hover { border-color: var(--beige); border-color: #D5C2B0; }
+
+    .control:focus {
+      outline: none;
+      border-color: var(--rose-deep);
+      box-shadow: 0 0 0 4px rgba(201, 161, 155, 0.24);
+    }
+
+    .control[aria-invalid="true"] {
+      border-color: var(--error);
+      background: #FFFCFB;
+    }
+    .control[aria-invalid="true"]:focus {
+      box-shadow: 0 0 0 4px rgba(164, 82, 74, 0.16);
+    }
+
+    textarea.control {
+      height: auto;
+      min-height: 200px;
+      padding: 14px 16px;
+      resize: vertical;
+      line-height: 1.75;
+    }
+
+    .select-wrap { position: relative; }
+    .select-wrap select.control {
+      padding-right: 44px;
+      cursor: pointer;
+    }
+    .select-wrap::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      width: 8px; height: 8px;
+      border-right: 1.5px solid var(--brown);
+      border-bottom: 1.5px solid var(--brown);
+      transform: translateY(-70%) rotate(45deg);
+      pointer-events: none;
+    }
+
+    .field-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 22px;
+      margin-top: 6px;
+    }
+
+    .field-error {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--error);
+      line-height: 1.5;
+      min-height: 0;
+    }
+    .field-error:empty { display: none; }
+    .field-foot .field-error { margin-top: 0; }
+
+    .counter {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* ---------- Button ---------- */
+    .submit-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      height: 56px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--brown);
+      color: #FFF9F3;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+      box-shadow: 0 10px 24px -14px rgba(87, 64, 47, 0.7);
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: var(--rose-deep);
+      box-shadow: 0 14px 28px -14px rgba(156, 107, 102, 0.75);
+    }
+    .submit-btn:active:not(:disabled) { transform: translateY(1px); }
+    .submit-btn:focus-visible {
+      outline: 2px solid var(--rose-deep);
+      outline-offset: 3px;
+    }
+    .submit-btn:disabled {
+      cursor: progress;
+      background: #9A8378;
+      box-shadow: none;
+    }
+
+    .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 249, 243, 0.35);
+      border-top-color: #FFF9F3;
+      animation: spin .8s linear infinite;
+    }
+    .submit-btn.is-loading .spinner { display: inline-block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .privacy {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 22px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .privacy svg { flex: none; margin-top: 2px; }
+
+    /* ---------- Feedback ---------- */
+    .feedback:empty { display: none; }
+    .feedback { margin-top: 24px; }
+
+    .notice {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 12px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.65;
+      border: 1px solid transparent;
+    }
+    .notice svg { margin-top: 2px; }
+    .notice-title { margin: 0; font-weight: 500; }
+    .notice-text { margin: 2px 0 0; }
+
+    .notice--info {
+      background: var(--cream);
+      border-color: var(--line);
+      color: var(--brown-dark);
+    }
+    .notice--warn {
+      background: var(--error-bg);
+      border-color: #F0D3CE;
+      color: var(--error);
+    }
+    .notice--loading {
+      background: var(--cream);
+      border-color: var(--line);
+      color: var(--brown-dark);
+    }
+
+    .dots { display: inline-flex; gap: 5px; margin-top: 8px; }
+    .dots i {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rose);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .dots i:nth-child(2) { animation-delay: .15s; }
+    .dots i:nth-child(3) { animation-delay: .3s; }
+    @keyframes pulse {
+      0%, 80%, 100% { opacity: .3; transform: scale(.85); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    .result {
+      position: relative;
+      border-radius: 16px;
+      padding: 26px 26px 22px;
+      overflow: hidden;
+      animation: rise .45s ease both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .result--answered {
+      background: var(--success-bg);
+      border: 1px solid var(--line);
+    }
+    .result--answered::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--brown);
+    }
+
+    .result--forwarded {
+      background: var(--forward-bg);
+      border: 1px solid #EBD5CF;
+    }
+    .result--forwarded::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--rose);
+    }
+
+    .result-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .result-icon {
+      flex: none;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+
+    .result-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 19px;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+    .result-title:focus { outline: none; }
+    .result-title:focus-visible {
+      outline: 2px solid var(--rose-deep);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    .result-body {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--ink);
+    }
+
+    .result-note {
+      margin: 16px 0 0;
+      padding-top: 14px;
+      border-top: 1px dashed #D9C6B5;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px 36px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    noscript p {
+      max-width: 640px;
+      margin: 16px auto;
+      padding: 14px 18px;
+      background: var(--error-bg);
+      color: var(--error);
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .page {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding-top: 12px;
+      }
+      .intro { position: relative; top: 0; padding-top: 16px; }
+      .intro-ornament { width: 200px; height: 200px; top: -24px; right: -30px; }
+      .flow { margin-top: 28px; }
+    }
+
+    @media (max-width: 640px) {
+      .site-header { padding: 16px 18px; flex-wrap: wrap; }
+      .brand-text { font-size: 11px; letter-spacing: 0.18em; }
+      .brand-mark { width: 28px; height: 28px; }
+      .lang-btn { padding: 6px 10px; font-size: 12px; }
+      .page { padding: 8px 16px 40px; gap: 28px; }
+      .intro-ornament { width: 160px; height: 160px; right: -36px; }
+      .intro-rule { margin: 24px 0; }
+      .card { padding: 30px 20px 26px; border-radius: 18px; }
+      .card-head { margin-bottom: 24px; }
+      .card-head h2 { font-size: 21px; }
+      .field-row { grid-template-columns: 1fr; }
+      textarea.control { min-height: 180px; }
+      .result { padding: 22px 18px 18px; }
+      .site-footer { padding: 0 18px 28px; }
+    }
+
+    @media (max-width: 380px) {
+      .lang-switch { width: 100%; justify-content: space-between; }
+      .lang-btn { flex: 1; padding: 6px 4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#consult-form" data-i18n="skipLink">상담 문의 작성으로 바로가기</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <circle cx="20" cy="20" r="18.5" fill="none" stroke="#C9A19B" stroke-width="1"/>
+        <circle cx="20" cy="20" r="12" fill="#EFDCD6"/>
+        <circle cx="16" cy="16" r="3.2" fill="#FFFDFA" opacity="0.85"/>
+      </svg>
+      <span class="brand-text">BEAUTY STUDENT SUPPORT</span>
+    </div>
+
+    <div class="lang-switch" role="group" id="lang-switch" aria-label="언어 선택" data-i18n-aria="langSwitchLabel">
+      <button type="button" class="lang-btn" data-lang="ko" lang="ko" aria-pressed="true">한국어</button>
+      <button type="button" class="lang-btn" data-lang="zh" lang="zh-CN" aria-pressed="false">中文（简体）</button>
+      <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false">English</button>
+    </div>
+  </header>
+
+  <noscript>
+    <p>이 페이지는 JavaScript가 필요합니다. · 本页面需要启用 JavaScript。 · This page requires JavaScript.</p>
+  </noscript>
+
+  <main class="page" id="main">
+    <section class="intro" aria-labelledby="page-title">
+      <svg class="intro-ornament" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="powder" cx="40%" cy="38%" r="65%">
+            <stop offset="0%" stop-color="#F6E7E2"/>
+            <stop offset="70%" stop-color="#EBD3CC"/>
+            <stop offset="100%" stop-color="#E2C5BD"/>
+          </radialGradient>
+        </defs>
+        <circle cx="140" cy="120" r="108" fill="none" stroke="#E2D3C3" stroke-width="1"/>
+        <circle cx="140" cy="120" r="92" fill="none" stroke="#E7D9C8" stroke-width="1" stroke-dasharray="2 6"/>
+        <circle cx="140" cy="120" r="70" fill="url(#powder)" opacity="0.75"/>
+        <ellipse cx="118" cy="98" rx="22" ry="14" fill="#FFFDFA" opacity="0.55"/>
+        <circle cx="222" cy="210" r="18" fill="none" stroke="#C9A19B" stroke-width="1" opacity="0.7"/>
+      </svg>
+
+      <p class="eyebrow" data-i18n="eyebrow">BEAUTY STUDENT SUPPORT</p>
+      <h1 id="page-title" data-i18n="title">뷰티디자인학과 AI 학생상담</h1>
+      <p class="subtitle" data-i18n="subtitle">AI Student Consultation Service</p>
+
+      <hr class="intro-rule" aria-hidden="true">
+
+      <p class="intro-text" data-i18n="intro">수업, 실습, 과제, 학사 일정 등 궁금한 점을 남겨주세요. 일반적인 문의는 AI가 바로 답변하고, 확인이 필요한 문의는 담당 조교에게 전달됩니다.</p>
+
+      <ol class="flow" aria-label="상담 진행 순서" data-i18n-aria="flowLabel">
+        <li>
+          <div>
+            <strong data-i18n="step1Title">문의 작성</strong>
+            <span data-i18n="step1Text">기본 정보와 궁금한 내용을 입력합니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong data-i18n="step2Title">AI 검토</strong>
+            <span data-i18n="step2Text">AI가 문의 내용을 확인하고 답변 가능 여부를 판단합니다.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong data-i18n="step3Title">답변 또는 조교 전달</strong>
+            <span data-i18n="step3Text">바로 답변하거나, 담당 조교에게 문의를 전달합니다.</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="card" aria-labelledby="form-title">
+      <div class="card-head">
+        <h2 id="form-title" data-i18n="formTitle">상담 문의</h2>
+        <p><span class="req-dot" aria-hidden="true"></span><span data-i18n="formDesc">표시된 항목은 모두 필수 입력 항목입니다.</span></p>
+      </div>
+
+      <form id="consult-form" novalidate aria-describedby="privacy-note">
+        <div class="field-row">
+          <div class="field">
+            <label for="name">
+              <span data-i18n="labelName">이름</span>
+              <span class="req-dot" aria-hidden="true"></span>
+            </label>
+            <input class="control" type="text" id="name" name="name" autocomplete="name" required aria-required="true" aria-describedby="error-name" placeholder="홍길동" data-i18n-placeholder="phName" maxlength="50">
+            <p class="field-error" id="error-name" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="studentId">
+              <span data-i18n="labelStudentId">학번</span>
+              <span class="req-dot" aria-hidden="true"></span>
+            </label>
+            <input class="control" type="text" id="studentId" name="studentId" autocomplete="off" inputmode="text" required aria-required="true" aria-describedby="error-studentId" placeholder="예: 20241234" data-i18n-placeholder="phStudentId" maxlength="30">
+            <p class="field-error" id="error-studentId" role="alert"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">
+            <span data-i18n="labelEmail">이메일</span>
+            <span class="req-dot" aria-hidden="true"></span>
+          </label>
+          <input class="control" type="email" id="email" name="email" autocomplete="email" inputmode="email" required aria-required="true" aria-describedby="error-email" placeholder="student@university.ac.kr" data-i18n-placeholder="phEmail" maxlength="120">
+          <p class="field-error" id="error-email" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="language">
+            <span data-i18n="labelLanguage">답변 언어</span>
+            <span class="req-dot" aria-hidden="true"></span>
+          </label>
+          <div class="select-wrap">
+            <select class="control" id="language" name="language" required aria-required="true">
+              <option value="ko" lang="ko">한국어</option>
+              <option value="zh" lang="zh-CN">中文（简体）</option>
+              <option value="en" lang="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="question">
+            <span data-i18n="labelQuestion">문의 내용</span>
+            <span class="req-dot" aria-hidden="true"></span>
+          </label>
+          <p class="hint" id="hint-question" data-i18n="hintQuestion">궁금한 내용을 자세히 입력해주세요.</p>
+          <textarea class="control" id="question" name="question" rows="8" required aria-required="true" aria-describedby="hint-question error-question counter-question" placeholder="예: 다음 주 실습 수업에 필요한 준비물이 궁금합니다." data-i18n-placeholder="phQuestion" maxlength="2000"></textarea>
+          <div class="field-foot">
+            <p class="field-error" id="error-question" role="alert"></p>
+            <span class="counter" id="counter-question" aria-live="off">0 / 2000</span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="submit-label" data-i18n="submit">상담 문의 보내기</span>
+        </button>
+
+        <div class="feedback" id="feedback" aria-live="polite" aria-atomic="true"></div>
+
+        <p class="privacy" id="privacy-note">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="#9C6B66" stroke-width="1.2"/>
+            <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="#9C6B66" stroke-width="1.2"/>
+          </svg>
+          <span data-i18n="privacy">입력하신 정보는 학생 상담 처리를 위해서만 사용됩니다.</span>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span data-i18n="footer">뷰티디자인학과 학생상담 · AI Student Consultation Service</span>
+  </footer>
+
+  <script>
+    /* =========================================================
+       n8n Webhook 설정 / n8n Webhook 设置 / n8n Webhook setting
+       아래 값을 실제 Production Webhook URL로 교체하세요.
+       将下面的值替换为真实的 Production Webhook URL。
+       Replace the value below with your real Production Webhook URL.
+       ========================================================= */
+    const N8N_WEBHOOK_URL = "PASTE_N8N_WEBHOOK_URL_HERE";
+
+    /* 요청 대기 시간 (밀리초) / 请求超时 (毫秒) / Request timeout (ms) */
+    const REQUEST_TIMEOUT_MS = 60000;
+
+    /* ---------------------------------------------------------
+       Translations
+       --------------------------------------------------------- */
+    const translations = {
+      ko: {
+        htmlLang: "ko",
+        pageTitle: "뷰티디자인학과 AI 학생상담",
+        skipLink: "상담 문의 작성으로 바로가기",
+        langSwitchLabel: "언어 선택",
+        eyebrow: "BEAUTY STUDENT SUPPORT",
+        title: "뷰티디자인학과 AI 학생상담",
+        subtitle: "AI Student Consultation Service",
+        intro: "수업, 실습, 과제, 학사 일정 등 궁금한 점을 남겨주세요. 일반적인 문의는 AI가 바로 답변하고, 확인이 필요한 문의는 담당 조교에게 전달됩니다.",
+        flowLabel: "상담 진행 순서",
+        step1Title: "문의 작성",
+        step1Text: "기본 정보와 궁금한 내용을 입력합니다.",
+        step2Title: "AI 검토",
+        step2Text: "AI가 문의 내용을 확인하고 답변 가능 여부를 판단합니다.",
+        step3Title: "답변 또는 조교 전달",
+        step3Text: "바로 답변하거나, 담당 조교에게 문의를 전달합니다.",
+        formTitle: "상담 문의",
+        formDesc: "표시된 항목은 모두 필수 입력 항목입니다.",
+        labelName: "이름",
+        labelStudentId: "학번",
+        labelEmail: "이메일",
+        labelLanguage: "답변 언어",
+        labelQuestion: "문의 내용",
+        hintQuestion: "궁금한 내용을 자세히 입력해주세요.",
+        phName: "홍길동",
+        phStudentId: "예: 20241234",
+        phEmail: "student@university.ac.kr",
+        phQuestion: "예: 다음 주 실습 수업에 필요한 준비물이 궁금합니다.",
+        submit: "상담 문의 보내기",
+        submitting: "전송 중",
+        errRequired: {
+          name: "이름을 입력해주세요.",
+          studentId: "학번을 입력해주세요.",
+          email: "이메일을 입력해주세요.",
+          question: "문의 내용을 입력해주세요."
+        },
+        errEmail: "올바른 이메일 형식이 아닙니다. 예: student@university.ac.kr",
+        validationTitle: "입력하지 않은 필수 항목이 있습니다.",
+        validationText: "표시된 항목을 확인한 뒤 다시 보내주세요.",
+        emailTitle: "이메일 형식을 확인해주세요.",
+        emailText: "예: student@university.ac.kr 형식으로 입력해주세요.",
+        loadingTitle: "상담 내용을 전송하고 있습니다",
+        loadingText: "AI가 문의 내용을 확인하는 중입니다. 잠시만 기다려주세요.",
+        devTitle: "현재 상담 시스템을 연결 중입니다.",
+        devText: "입력하신 내용은 그대로 유지됩니다. 시스템 연결이 완료된 후 다시 보내주세요.",
+        errorTitle: "문의를 보내지 못했습니다.",
+        errorText: "네트워크 연결을 확인한 뒤 다시 시도해주세요. 입력하신 내용은 그대로 유지됩니다.",
+        timeoutText: "응답 시간이 초과되었습니다. 잠시 후 다시 시도해주세요. 입력하신 내용은 그대로 유지됩니다.",
+        answeredTitle: "AI 상담 답변",
+        answeredNote: "AI 답변은 참고용입니다. 추가로 궁금한 점이 있으면 새 문의를 보내주세요.",
+        forwardedTitle: "담당자 확인이 필요한 문의입니다.",
+        forwardedText: "문의 내용이 담당 조교에게 전달되었습니다.",
+        forwardedNote: "담당 조교가 확인한 후 안내드릴 예정입니다.",
+        privacy: "입력하신 정보는 학생 상담 처리를 위해서만 사용됩니다.",
+        footer: "뷰티디자인학과 학생상담 · AI Student Consultation Service",
+        counterLabel: "글자 수"
+      },
+      zh: {
+        htmlLang: "zh-CN",
+        pageTitle: "美容设计系 AI 学生咨询",
+        skipLink: "跳转到咨询表单",
+        langSwitchLabel: "选择语言",
+        eyebrow: "BEAUTY STUDENT SUPPORT",
+        title: "美容设计系 AI 学生咨询",
+        subtitle: "AI 学生咨询服务",
+        intro: "关于课程、实习、作业、学校日程等问题，欢迎在此提交。一般问题由 AI 即时回复，需要确认的问题将转交给负责助教。",
+        flowLabel: "咨询流程",
+        step1Title: "填写咨询",
+        step1Text: "填写基本信息和想咨询的问题。",
+        step2Title: "AI 审核",
+        step2Text: "AI 确认问题内容，并判断是否可以直接回答。",
+        step3Title: "回复或转交助教",
+        step3Text: "直接给出回复，或将咨询转交给负责助教。",
+        formTitle: "咨询表单",
+        formDesc: "标记的项目均为必填项。",
+        labelName: "姓名",
+        labelStudentId: "学号",
+        labelEmail: "邮箱",
+        labelLanguage: "回复语言",
+        labelQuestion: "咨询问题",
+        hintQuestion: "请详细填写您想咨询的问题。",
+        phName: "请输入姓名",
+        phStudentId: "例：20241234",
+        phEmail: "student@university.ac.kr",
+        phQuestion: "例：想了解下周实习课需要准备哪些材料。",
+        submit: "发送咨询",
+        submitting: "发送中",
+        errRequired: {
+          name: "请填写姓名。",
+          studentId: "请填写学号。",
+          email: "请填写邮箱。",
+          question: "请填写咨询问题。"
+        },
+        errEmail: "邮箱格式不正确。例：student@university.ac.kr",
+        validationTitle: "有必填项目尚未填写。",
+        validationText: "请检查标记的项目后重新发送。",
+        emailTitle: "请检查邮箱格式。",
+        emailText: "请按 student@university.ac.kr 的格式填写。",
+        loadingTitle: "正在发送咨询内容",
+        loadingText: "AI 正在确认您的问题，请稍候。",
+        devTitle: "咨询系统正在连接中。",
+        devText: "您填写的内容已保留。请在系统连接完成后重新发送。",
+        errorTitle: "咨询发送失败。",
+        errorText: "请检查网络连接后重试。您填写的内容已保留。",
+        timeoutText: "响应超时，请稍后重试。您填写的内容已保留。",
+        answeredTitle: "AI 咨询回复",
+        answeredNote: "AI 回复仅供参考。如有其他问题，请发送新的咨询。",
+        forwardedTitle: "该问题需要工作人员进一步确认。",
+        forwardedText: "您的咨询已转交给负责助教。",
+        forwardedNote: "负责助教确认后将会与您联系。",
+        privacy: "您填写的信息仅用于处理学生咨询。",
+        footer: "美容设计系学生咨询 · AI Student Consultation Service",
+        counterLabel: "字数"
+      },
+      en: {
+        htmlLang: "en",
+        pageTitle: "Beauty Design AI Student Consultation",
+        skipLink: "Skip to the consultation form",
+        langSwitchLabel: "Select language",
+        eyebrow: "BEAUTY STUDENT SUPPORT",
+        title: "Beauty Design AI Student Consultation",
+        subtitle: "AI Student Consultation Service",
+        intro: "Ask about classes, practicums, assignments, or the academic calendar. General questions are answered by AI right away, and questions that need review are forwarded to the department assistant.",
+        flowLabel: "How consultation works",
+        step1Title: "Write your question",
+        step1Text: "Enter your details and what you would like to ask.",
+        step2Title: "AI review",
+        step2Text: "AI reads your question and decides whether it can answer directly.",
+        step3Title: "Answer or forward",
+        step3Text: "You get an answer right away, or your question goes to the department assistant.",
+        formTitle: "Consultation form",
+        formDesc: "All marked fields are required.",
+        labelName: "Name",
+        labelStudentId: "Student ID",
+        labelEmail: "Email",
+        labelLanguage: "Response Language",
+        labelQuestion: "Question",
+        hintQuestion: "Please describe your question in detail.",
+        phName: "Your full name",
+        phStudentId: "e.g. 20241234",
+        phEmail: "student@university.ac.kr",
+        phQuestion: "e.g. What materials do I need for next week's practicum class?",
+        submit: "Submit Question",
+        submitting: "Sending",
+        errRequired: {
+          name: "Enter your name.",
+          studentId: "Enter your student ID.",
+          email: "Enter your email.",
+          question: "Enter your question."
+        },
+        errEmail: "This email format is not valid. e.g. student@university.ac.kr",
+        validationTitle: "Some required fields are empty.",
+        validationText: "Check the marked fields and submit again.",
+        emailTitle: "Check your email format.",
+        emailText: "Use a format like student@university.ac.kr.",
+        loadingTitle: "Sending your question",
+        loadingText: "AI is reviewing your question. Please wait a moment.",
+        devTitle: "The consultation system is currently being connected.",
+        devText: "Your entries have been kept. Please submit again once the system is connected.",
+        errorTitle: "Your question could not be sent.",
+        errorText: "Check your network connection and try again. Your entries have been kept.",
+        timeoutText: "The server took too long to respond. Try again in a moment. Your entries have been kept.",
+        answeredTitle: "AI Response",
+        answeredNote: "AI responses are for reference. If you have more questions, submit a new one.",
+        forwardedTitle: "This question requires further review.",
+        forwardedText: "Your inquiry has been forwarded to the department assistant.",
+        forwardedNote: "The department assistant will follow up after reviewing it.",
+        privacy: "The information you provide will only be used to process your student inquiry.",
+        footer: "Beauty Design Student Support · AI Student Consultation Service",
+        counterLabel: "Characters"
+      }
+    };
+
+    const SUPPORTED_LANGS = ["ko", "zh", "en"];
+    const FIELD_KEYS = ["name", "studentId", "email", "question"];
+    const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    /* ---------------------------------------------------------
+       State
+       --------------------------------------------------------- */
+    const state = {
+      lang: "ko",
+      languageFieldTouched: false,
+      isSubmitting: false,
+      fieldErrors: {},          // { fieldKey: "required" | "email" }
+      view: { type: "idle", serverText: "" }
+      // view.type: idle | validation | email | loading | dev | error | timeout | answered | forwarded
+    };
+
+    /* ---------------------------------------------------------
+       Elements
+       --------------------------------------------------------- */
+    const form = document.getElementById("consult-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const submitLabel = document.getElementById("submit-label");
+    const feedback = document.getElementById("feedback");
+    const languageSelect = document.getElementById("language");
+    const questionInput = document.getElementById("question");
+    const counter = document.getElementById("counter-question");
+    const langButtons = document.querySelectorAll(".lang-btn");
+
+    const fields = {
+      name: document.getElementById("name"),
+      studentId: document.getElementById("studentId"),
+      email: document.getElementById("email"),
+      question: questionInput
+    };
+
+    /* ---------------------------------------------------------
+       Helpers
+       --------------------------------------------------------- */
+    function t(key) {
+      const dict = translations[state.lang] || translations.ko;
+      return dict[key] !== undefined ? dict[key] : (translations.ko[key] || "");
+    }
+
+    function isWebhookConfigured() {
+      return typeof N8N_WEBHOOK_URL === "string" &&
+        N8N_WEBHOOK_URL.trim() !== "" &&
+        N8N_WEBHOOK_URL.trim() !== "PASTE_N8N_WEBHOOK_URL_HERE" &&
+        /^https?:\/\//i.test(N8N_WEBHOOK_URL.trim());
+    }
+
+    function prefersReducedMotion() {
+      return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function createEl(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text !== undefined && text !== null) el.textContent = text;
+      return el;
+    }
+
+    function svgIcon(type) {
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("width", "20");
+      svg.setAttribute("height", "20");
+      svg.setAttribute("viewBox", "0 0 20 20");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("focusable", "false");
+
+      const paths = {
+        info: [
+          ["circle", { cx: "10", cy: "10", r: "8.25", fill: "none", stroke: "currentColor", "stroke-width": "1.3" }],
+          ["path", { d: "M10 9v5", fill: "none", stroke: "currentColor", "stroke-width": "1.4", "stroke-linecap": "round" }],
+          ["circle", { cx: "10", cy: "6.3", r: "0.9", fill: "currentColor" }]
+        ],
+        warn: [
+          ["circle", { cx: "10", cy: "10", r: "8.25", fill: "none", stroke: "currentColor", "stroke-width": "1.3" }],
+          ["path", { d: "M10 5.8v5", fill: "none", stroke: "currentColor", "stroke-width": "1.4", "stroke-linecap": "round" }],
+          ["circle", { cx: "10", cy: "13.8", r: "0.9", fill: "currentColor" }]
+        ],
+        answer: [
+          ["path", { d: "M4 10.5l3.6 3.4L16 6", fill: "none", stroke: "#6E5346", "stroke-width": "1.6", "stroke-linecap": "round", "stroke-linejoin": "round" }]
+        ],
+        forward: [
+          ["path", { d: "M3.5 6.5h13v8h-13z", fill: "none", stroke: "#9C6B66", "stroke-width": "1.3", "stroke-linejoin": "round" }],
+          ["path", { d: "M3.8 6.8L10 11.2l6.2-4.4", fill: "none", stroke: "#9C6B66", "stroke-width": "1.3", "stroke-linejoin": "round" }]
+        ]
+      };
+
+      (paths[type] || paths.info).forEach(function (item) {
+        const node = document.createElementNS(ns, item[0]);
+        Object.keys(item[1]).forEach(function (attr) {
+          node.setAttribute(attr, item[1][attr]);
+        });
+        svg.appendChild(node);
+      });
+      return svg;
+    }
+
+    /* ---------------------------------------------------------
+       Rendering: language
+       --------------------------------------------------------- */
+    function applyLanguage(lang) {
+      if (SUPPORTED_LANGS.indexOf(lang) === -1) lang = "ko";
+      state.lang = lang;
+
+      document.documentElement.lang = t("htmlLang");
+      document.title = t("pageTitle");
+
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        const key = el.getAttribute("data-i18n");
+        const value = t(key);
+        if (typeof value === "string") el.textContent = value;
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+        el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+      });
+
+      document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+        el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+      });
+
+      langButtons.forEach(function (btn) {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-lang") === lang ? "true" : "false");
+      });
+
+      if (!state.languageFieldTouched) {
+        languageSelect.value = lang;
+      }
+
+      if (state.isSubmitting) {
+        submitLabel.textContent = t("submitting");
+      }
+
+      updateCounter();
+      renderFieldErrors();
+      renderFeedback(false);
+    }
+
+    /* ---------------------------------------------------------
+       Rendering: field errors
+       --------------------------------------------------------- */
+    function renderFieldErrors() {
+      FIELD_KEYS.forEach(function (key) {
+        const input = fields[key];
+        const errorEl = document.getElementById("error-" + key);
+        const errorType = state.fieldErrors[key];
+
+        if (errorType === "required") {
+          errorEl.textContent = t("errRequired")[key];
+          input.setAttribute("aria-invalid", "true");
+        } else if (errorType === "email") {
+          errorEl.textContent = t("errEmail");
+          input.setAttribute("aria-invalid", "true");
+        } else {
+          errorEl.textContent = "";
+          input.removeAttribute("aria-invalid");
+        }
+      });
+    }
+
+    /* ---------------------------------------------------------
+       Rendering: feedback / result area
+       --------------------------------------------------------- */
+    function buildNotice(variant, iconType, title, text, withDots) {
+      const box = createEl("div", "notice notice--" + variant);
+      box.appendChild(svgIcon(iconType));
+      const content = createEl("div");
+      content.appendChild(createEl("p", "notice-title", title));
+      if (text) content.appendChild(createEl("p", "notice-text", text));
+      if (withDots) {
+        const dots = createEl("span", "dots");
+        dots.setAttribute("aria-hidden", "true");
+        dots.appendChild(createEl("i"));
+        dots.appendChild(createEl("i"));
+        dots.appendChild(createEl("i"));
+        content.appendChild(dots);
+      }
+      box.appendChild(content);
+      return box;
+    }
+
+    function buildResult(variant, iconType, title, body, note) {
+      const card = createEl("article", "result result--" + variant);
+      const head = createEl("div", "result-head");
+      const icon = createEl("span", "result-icon");
+      icon.appendChild(svgIcon(iconType));
+      const heading = createEl("h3", "result-title", title);
+      heading.id = "result-title";
+      heading.setAttribute("tabindex", "-1");
+      card.setAttribute("aria-labelledby", "result-title");
+      head.appendChild(icon);
+      head.appendChild(heading);
+      card.appendChild(head);
+      card.appendChild(createEl("p", "result-body", body));
+      if (note) card.appendChild(createEl("p", "result-note", note));
+      return card;
+    }
+
+    function renderFeedback(shouldFocus) {
+      const view = state.view;
+      feedback.textContent = "";
+      let node = null;
+
+      switch (view.type) {
+        case "validation":
+          node = buildNotice("warn", "warn", t("validationTitle"), t("validationText"));
+          break;
+        case "email":
+          node = buildNotice("warn", "warn", t("emailTitle"), t("emailText"));
+          break;
+        case "loading":
+          node = buildNotice("loading", "info", t("loadingTitle"), t("loadingText"), true);
+          break;
+        case "dev":
+          node = buildNotice("info", "info", t("devTitle"), t("devText"));
+          break;
+        case "error":
+          node = buildNotice("warn", "warn", t("errorTitle"), t("errorText"));
+          break;
+        case "timeout":
+          node = buildNotice("warn", "warn", t("errorTitle"), t("timeoutText"));
+          break;
+        case "answered":
+          node = buildResult("answered", "answer", t("answeredTitle"), view.serverText, t("answeredNote"));
+          break;
+        case "forwarded": {
+          const hasServerMessage = typeof view.serverText === "string" && view.serverText.trim() !== "";
+          const body = hasServerMessage ? view.serverText : t("forwardedText");
+          node = buildResult("forwarded", "forward", t("forwardedTitle"), body, t("forwardedNote"));
+          break;
+        }
+        default:
+          node = null;
+      }
+
+      if (node) feedback.appendChild(node);
+
+      if (shouldFocus && node && (view.type === "answered" || view.type === "forwarded")) {
+        const heading = document.getElementById("result-title");
+        if (heading) {
+          heading.focus({ preventScroll: true });
+          node.scrollIntoView({
+            behavior: prefersReducedMotion() ? "auto" : "smooth",
+            block: "center"
+          });
+        }
+      } else if (shouldFocus && node && view.type !== "loading") {
+        node.scrollIntoView({
+          behavior: prefersReducedMotion() ? "auto" : "smooth",
+          block: "nearest"
+        });
+      }
+    }
+
+    function setView(type, serverText, shouldFocus) {
+      state.view = { type: type, serverText: serverText || "" };
+      renderFeedback(Boolean(shouldFocus));
+    }
+
+    /* ---------------------------------------------------------
+       Loading state
+       --------------------------------------------------------- */
+    function setSubmitting(isSubmitting) {
+      state.isSubmitting = isSubmitting;
+      submitBtn.disabled = isSubmitting;
+      submitBtn.classList.toggle("is-loading", isSubmitting);
+      submitBtn.setAttribute("aria-busy", isSubmitting ? "true" : "false");
+      submitLabel.textContent = isSubmitting ? t("submitting") : t("submit");
+      form.setAttribute("aria-busy", isSubmitting ? "true" : "false");
+    }
+
+    /* ---------------------------------------------------------
+       Counter
+       --------------------------------------------------------- */
+    function updateCounter() {
+      const max = questionInput.getAttribute("maxlength") || "2000";
+      counter.textContent = questionInput.value.length + " / " + max;
+      counter.setAttribute("aria-label", t("counterLabel") + " " + questionInput.value.length + " / " + max);
+    }
+
+    /* ---------------------------------------------------------
+       Validation
+       --------------------------------------------------------- */
+    function collectFormData() {
+      return {
+        name: fields.name.value.trim(),
+        studentId: fields.studentId.value.trim(),
+        email: fields.email.value.trim(),
+        language: SUPPORTED_LANGS.indexOf(languageSelect.value) !== -1 ? languageSelect.value : state.lang,
+        question: fields.question.value.trim()
+      };
+    }
+
+    function validate(data) {
+      const errors = {};
+      FIELD_KEYS.forEach(function (key) {
+        if (!data[key]) errors[key] = "required";
+      });
+      if (!errors.email && !EMAIL_PATTERN.test(data.email)) {
+        errors.email = "email";
+      }
+      return errors;
+    }
+
+    /* ---------------------------------------------------------
+       Response parsing
+       --------------------------------------------------------- */
+    function pickText(value) {
+      if (typeof value === "string") return value;
+      if (value === null || value === undefined) return "";
+      if (typeof value === "number" || typeof value === "boolean") return String(value);
+      try { return JSON.stringify(value, null, 2); } catch (e) { return ""; }
+    }
+
+    function interpretResponse(rawText) {
+      let data = null;
+      if (rawText && rawText.trim() !== "") {
+        try { data = JSON.parse(rawText); } catch (e) { data = null; }
+      }
+
+      if (Array.isArray(data)) data = data.length ? data[0] : null;
+      if (data && typeof data === "object" && data.json && typeof data.json === "object" && !data.status) {
+        data = data.json;
+      }
+
+      if (data && typeof data === "object") {
+        const status = typeof data.status === "string" ? data.status.trim().toLowerCase() : "";
+        const answer = pickText(data.answer).trim();
+        const message = pickText(data.message).trim();
+
+        if (status === "forwarded") {
+          return { type: "forwarded", text: message };
+        }
+        if (status === "answered" && answer) {
+          return { type: "answered", text: answer };
+        }
+        if (!status && answer) {
+          return { type: "answered", text: answer };
+        }
+        if (status === "answered" && !answer && message) {
+          return { type: "answered", text: message };
+        }
+        return { type: "error", text: "" };
+      }
+
+      if (data === null && rawText && rawText.trim() !== "") {
+        return { type: "answered", text: rawText.trim() };
+      }
+
+      return { type: "error", text: "" };
+    }
+
+    /* ---------------------------------------------------------
+       Submit
+       --------------------------------------------------------- */
+    async function handleSubmit(event) {
+      event.preventDefault();
+      if (state.isSubmitting) return;
+
+      const formData = collectFormData();
+      const errors = validate(formData);
+      state.fieldErrors = errors;
+      renderFieldErrors();
+
+      const errorKeys = Object.keys(errors);
+      if (errorKeys.length > 0) {
+        const onlyEmailFormat = errorKeys.length === 1 && errors.email === "email";
+        setView(onlyEmailFormat ? "email" : "validation", "", false);
+        const firstKey = FIELD_KEYS.find(function (key) { return errors[key]; });
+        if (firstKey && fields[firstKey]) fields[firstKey].focus();
+        return;
+      }
+
+      /* 개발 단계: Webhook URL 미설정 시 네트워크 요청을 보내지 않음 */
+      if (!isWebhookConfigured()) {
+        setView("dev", "", true);
+        return;
+      }
+
+      setSubmitting(true);
+      setView("loading", "", false);
+
+      const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(function () { controller.abort(); }, REQUEST_TIMEOUT_MS) : null;
+
+      try {
+        const response = await fetch(N8N_WEBHOOK_URL.trim(), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData),
+          signal: controller ? controller.signal : undefined
+        });
+
+        const rawText = await response.text();
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const result = interpretResponse(rawText);
+
+        if (result.type === "answered" || result.type === "forwarded") {
+          fields.question.value = "";
+          updateCounter();
+          state.fieldErrors = {};
+          renderFieldErrors();
+          setView(result.type, result.text, true);
+        } else {
+          setView("error", "", true);
+        }
+      } catch (error) {
+        const isAbort = error && error.name === "AbortError";
+        setView(isAbort ? "timeout" : "error", "", true);
+        if (window.console && console.warn) console.warn("Consultation submit failed:", error);
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+        setSubmitting(false);
+      }
+    }
+
+    /* ---------------------------------------------------------
+       Events
+       --------------------------------------------------------- */
+    form.addEventListener("submit", handleSubmit);
+
+    /* Enter in single-line inputs should not submit the form unexpectedly.
+       Textarea keeps normal line breaks. */
+    form.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") return;
+      const target = event.target;
+      if (event.isComposing || event.keyCode === 229) return;
+      if (target && target.tagName === "INPUT") {
+        event.preventDefault();
+      }
+    });
+
+    langButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyLanguage(btn.getAttribute("data-lang"));
+      });
+    });
+
+    languageSelect.addEventListener("change", function () {
+      state.languageFieldTouched = true;
+    });
+
+    FIELD_KEYS.forEach(function (key) {
+      fields[key].addEventListener("input", function () {
+        if (state.fieldErrors[key]) {
+          delete state.fieldErrors[key];
+          renderFieldErrors();
+          if (Object.keys(state.fieldErrors).length === 0 &&
+              (state.view.type === "validation" || state.view.type === "email")) {
+            setView("idle", "", false);
+          }
+        }
+      });
+    });
+
+    fields.email.addEventListener("blur", function () {
+      const value = fields.email.value.trim();
+      if (value && !EMAIL_PATTERN.test(value)) {
+        state.fieldErrors.email = "email";
+        renderFieldErrors();
+      }
+    });
+
+    questionInput.addEventListener("input", updateCounter);
+
+    /* ---------------------------------------------------------
+       Init
+       --------------------------------------------------------- */
+    applyLanguage("ko");
+  </script>
+</body>
+</html>
